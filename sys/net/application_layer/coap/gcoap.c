@@ -37,7 +37,7 @@ static ssize_t _finish_pdu(coap_pkt_t *pdu, uint8_t *buf, size_t len);
 static void _expire_request(gcoap_request_memo_t *memo);
 static void _find_req_memo(gcoap_request_memo_t **memo_ptr, coap_pkt_t *pdu,
                                                             uint8_t *buf, size_t len);
-static void _find_resource(coap_pkt_t *pdu, coap_resource_t **resource_ptr,
+static void _find_resource(coap_pkt_t *pdu, const coap_resource_t **resource_ptr,
                                             gcoap_listener_t **listener_ptr);
 static int _find_observer(sock_udp_ep_t **observer, sock_udp_ep_t *remote);
 static int _find_obs_memo(gcoap_observe_memo_t **memo, sock_udp_ep_t *remote,
@@ -162,7 +162,7 @@ static void _listen(sock_udp_t *sock)
 static size_t _handle_req(coap_pkt_t *pdu, uint8_t *buf, size_t len,
                                                          sock_udp_ep_t *remote)
 {
-    coap_resource_t *resource;
+    const coap_resource_t *resource;
     gcoap_listener_t *listener;
     sock_udp_ep_t *observer    = NULL;
     gcoap_observe_memo_t *memo = NULL;
@@ -252,7 +252,7 @@ static size_t _handle_req(coap_pkt_t *pdu, uint8_t *buf, size_t len,
  * param[out] resource_ptr -- found resource
  * param[out] listener_ptr -- listener for found resource
  */
-static void _find_resource(coap_pkt_t *pdu, coap_resource_t **resource_ptr,
+static void _find_resource(coap_pkt_t *pdu, const coap_resource_t **resource_ptr,
                                             gcoap_listener_t **listener_ptr)
 {
     unsigned method_flag = coap_method2flag(coap_get_code_detail(pdu));
@@ -260,8 +260,8 @@ static void _find_resource(coap_pkt_t *pdu, coap_resource_t **resource_ptr,
     /* Find path for CoAP msg among listener resources and execute callback. */
     gcoap_listener_t *listener = _coap_state.listeners;
     while (listener) {
-        coap_resource_t **resourcep = listener->resources;
-        coap_resource_t *resource = *resourcep;
+        const coap_resource_t **resourcep = listener->resources;
+        const coap_resource_t *resource = *resourcep;
         for (size_t i = 0; i < listener->resources_len; i++) {
             if (i) {
                 resource = *(++resourcep);
@@ -393,8 +393,8 @@ static ssize_t _well_known_core_handler(coap_pkt_t* pdu, uint8_t *buf, size_t le
     uint8_t *bufpos            = pdu->payload;
 
     while (listener) {
-        coap_resource_t **resourcep = listener->resources;
-        coap_resource_t *resource = *resourcep;
+        const coap_resource_t **resourcep = listener->resources;
+        const coap_resource_t *resource = *resourcep;
         for (size_t i = 0; i < listener->resources_len; i++) {
             /* Don't overwrite buffer if paths are too long. */
             if (bufpos + strlen(resource->path) + 3 > buf + len) {
@@ -562,7 +562,7 @@ static int _find_obs_memo(gcoap_observe_memo_t **memo, sock_udp_ep_t *remote,
  * resource[in] -- Resource to match
  */
 static void _find_obs_memo_resource(gcoap_observe_memo_t **memo,
-                                    coap_resource_t *resource)
+                                    const coap_resource_t *resource)
 {
     *memo = NULL;
     for (int i = 0; i < GCOAP_OBS_REGISTRATIONS_MAX; i++) {
@@ -741,7 +741,7 @@ int gcoap_resp_init(coap_pkt_t *pdu, uint8_t *buf, size_t len, unsigned code)
 }
 
 int gcoap_obs_init(coap_pkt_t *pdu, uint8_t *buf, size_t len,
-                                                  coap_resource_t *resource)
+                                                  const coap_resource_t *resource)
 {
     ssize_t hdrlen;
     gcoap_observe_memo_t *memo = NULL;
