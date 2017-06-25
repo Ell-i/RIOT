@@ -397,8 +397,8 @@ extern "C" {
  * @brief   A modular collection of resources for a server
  */
 typedef struct gcoap_listener {
-    coap_resource_t *resources;     /**< First element in the array of
-                                     *   resources; must order alphabetically */
+    coap_resource_t **resources;    /**< First element in the array of pointers
+                                     *   to resources; must order alphabetically */
     size_t resources_len;           /**< Length of array */
     struct gcoap_listener *next;    /**< Next listener in list */
 } gcoap_listener_t;
