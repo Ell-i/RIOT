@@ -652,6 +652,17 @@ USEPKG += nanocoap
 USEMODULE += gnrc_sock_udp
 endif
 
+ifneq (,$(filter rdcli_simple_standalone,$(USEMODULE)))
+  USEMODULE += rdcli_simple
+  USEMODULE += xtimer
+endif
+
+ifneq (,$(filter rdcli_simple,$(USEMODULE)))
+  USEMODULE += rdcli_common
+  USEMODULE += gcoap
+  USEMODULE += fmt
+endif
+
 ifneq (,$(filter rdcli_common,$(USEMODULE)))
   USEMODULE += luid
   USEMODULE += fmt
