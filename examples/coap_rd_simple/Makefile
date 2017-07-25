@@ -25,8 +25,9 @@ FEATURES_REQUIRED += periph_hwrng
 # development process:
 CFLAGS += -DDEVELHELP
 
-# For debugging and demonstration purposes, we limit the lifetime to 10s
-CFLAGS += -DRDCLI_LT=10
+# For debugging and demonstration purposes, we limit the lifetime to the minimal
+# allowed value of 60s (see draft-ietf-core-resource-directory-11, Table 2)
+CFLAGS += -DRDCLI_LT=60
 
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 1
