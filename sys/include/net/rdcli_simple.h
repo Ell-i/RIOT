@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 Freie Universität Berlin
- *               2017 TODO
  *
  * This file is subject to the terms and conditions of the GNU Lesser
  * General Public License v2.1. See the file LICENSE in the top level
@@ -8,20 +7,18 @@
  */
 
 /**
- * @defgroup    net_rdcli_simple Simplified CoAP Resource Directory Client
+ * @defgroup    net_rdcli_simple Simple CoAP Resource Directory Registration
  * @ingroup     net_rdcli
  * @{
  *
  * @file
- * @brief
+ * @brief       Interface for a simple CoAP RD registration
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
- * @author      Pekka Nikander <TODO>
  */
 
 #ifndef RDCLI_SIMPLE_H
 #define RDCLI_SIMPLE_H
-
 
 #ifdef __cplusplus
 extern "C" {
