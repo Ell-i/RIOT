@@ -34,6 +34,9 @@ static void *reg_runner(void *arg)
 {
     (void)arg;
 
+    /* wait some seconds to give the address configuration some time to settle */
+    xtimer_sleep(3);
+
     while (1) {
         int res = rdcli_simple_register();
         if (res < 0) {
