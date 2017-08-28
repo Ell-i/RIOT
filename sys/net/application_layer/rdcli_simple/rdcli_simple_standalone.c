@@ -35,14 +35,14 @@ static void *reg_runner(void *arg)
     (void)arg;
 
     /* wait some seconds to give the address configuration some time to settle */
-    xtimer_sleep(3);
+    xtimer_sleep(RDCLI_STARTUP_DELAY);
 
     while (1) {
         int res = rdcli_simple_register();
         if (res < 0) {
             LOG_ERROR("[rdcli_simple] error: unable to trigger registration\n");
         }
-        xtimer_usleep(RDCLI_UPDATE_INTERVAL * US_PER_SEC);
+        xtimer_sleep(RDCLI_UPDATE_INTERVAL);
     }
 
     return NULL;    /* should never be reached */

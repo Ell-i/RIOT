@@ -34,6 +34,13 @@ extern "C" {
 #endif
 
 /**
+ * @brief   Delay until the RD client starts to try registering (in seconds)
+ */
+#ifndef RDCLI_STARTUP_DELAY
+#define RDCLI_STARTUP_DELAY     (3U)
+#endif
+
+/**
  * @brief   Default client update interval (default is half the lifetime)
  */
 #ifndef RDCLI_UPDATE_INTERVAL
