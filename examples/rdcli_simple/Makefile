@@ -1,5 +1,5 @@
 # name of your application
-APPLICATION = coap_rd_simple
+APPLICATION = rdcli_simple
 
 # If no BOARD is found in the environment, use this default:
 BOARD ?= native
