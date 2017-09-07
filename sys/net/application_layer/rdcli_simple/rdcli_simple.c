@@ -26,10 +26,7 @@
 #include "net/rdcli_common.h"
 #include "net/rdcli_simple.h"
 
-#define ENABLE_DEBUG    (0)
-#include "debug.h"
-
-#define BUFSIZE             (128U)      /* @todo adjust to reasonable size */
+#define BUFSIZE             (128U)
 
 static coap_pkt_t pkt;
 static uint8_t buf[BUFSIZE];

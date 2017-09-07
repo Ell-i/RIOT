@@ -7,12 +7,12 @@
  */
 
 /**
- * @defgroup    net_rdcli_simple Simple CoAP Resource Directory Registration
+ * @defgroup    net_rdcli_simple Simple CoRE Resource Directory Registration
  * @ingroup     net_rdcli
  * @{
  *
  * @file
- * @brief       Interface for a simple CoAP RD registration
+ * @brief       Interface for a simple CoRE RD registration
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
  */
@@ -25,7 +25,8 @@ extern "C" {
 #endif
 
 /**
- * @brief   Initiate the node registration by sending an empty push
+ * @brief   Initiate the node registration by sending an empty CoAP POST message
+ *          to the RD server's /.well-known/core resource
  */
 int rdcli_simple_register(void);
 
