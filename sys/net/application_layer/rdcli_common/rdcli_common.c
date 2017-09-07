@@ -11,7 +11,7 @@
  * @{
  *
  * @file
- * @brief       Implementation of common functions for CoAP RD clients
+ * @brief       Implementation of common functions for CoRE RD clients
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
  *

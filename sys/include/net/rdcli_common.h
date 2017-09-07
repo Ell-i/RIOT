@@ -7,12 +7,12 @@
  */
 
 /**
- * @defgroup    net_rdcli_common Shared Functionality for CoAP RD Clients
+ * @defgroup    net_rdcli_common Shared Functions for CoRE RD Clients
  * @ingroup     net_rdcli
  * @{
  *
  * @file
- * @brief       Shared CoAP RD client functions
+ * @brief       Shared CoRE RD client functions
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
  */
@@ -26,15 +26,20 @@
 extern "C" {
 #endif
 
+/**
+ * @brief   Export the local endpoint identifier
+ *
+ * @note    Use rdcli_common_get_ep() for accessing the endpoint identifier
+ */
 extern char rdcli_ep[];
 
 /**
- * @brief   Generate unique endpoint id (ep)
+ * @brief   Generate unique endpoint identifier (ep)
  */
 void rdcli_common_init(void);
 
 /**
- * @brief   Initiate the node registration by sending an empty push
+ * @brief   Get the local endpoint identifier
  */
 static inline const char *rdcli_common_get_ep(void)
 {
