@@ -11,7 +11,7 @@
  * @{
  *
  * @file
- * @brief       CoAP RD simple registration test application
+ * @brief       CoRE RD simple registration test application
  *
  * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
  *
