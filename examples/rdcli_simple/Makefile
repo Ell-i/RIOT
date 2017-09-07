@@ -7,16 +7,18 @@ BOARD ?= native
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../..
 
+# Enable GNRC networking
 USEMODULE += gnrc_netdev_default
 USEMODULE += auto_init_gnrc_netif
 USEMODULE += gnrc_ipv6_default
 
+# Run the simple CoRE resource directory
 USEMODULE += rdcli_simple_standalone
 
+# Include the shell for testing purposes
 USEMODULE += shell
 USEMODULE += shell_commands
 USEMODULE += ps
-USEMODULE += fmt
 
 FEATURES_REQUIRED += periph_hwrng
 
@@ -28,8 +30,5 @@ CFLAGS += -DDEVELHELP
 # For debugging and demonstration purposes, we limit the lifetime to the minimal
 # allowed value of 60s (see draft-ietf-core-resource-directory-11, Table 2)
 CFLAGS += -DRDCLI_LT=60
-
-# Change this to 0 show compiler invocation lines by default:
-QUIET ?= 1
 
 include $(RIOTBASE)/Makefile.include

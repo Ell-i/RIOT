@@ -20,36 +20,43 @@
 
 #include <stdio.h>
 
-#include "fmt.h"
 #include "shell.h"
-#include "periph/hwrng.h"
 #include "net/gcoap.h"
 #include "net/rdcli_common.h"
 
-/* define some dummy CoAP resources */
-static ssize_t handler_dummy(coap_pkt_t *pdu, uint8_t *buf, size_t len)
-{
-    /* get random data */
-    int16_t val;
-    hwrng_read(&val, 2);
+#define BUFSIZE             (64U)
 
+static char riot_info[BUFSIZE];
+
+/* define some dummy CoAP resources */
+static ssize_t text_resp(coap_pkt_t *pdu, uint8_t *buf, size_t len,
+                         const char *text, unsigned format)
+{
     gcoap_resp_init(pdu, buf, len, COAP_CODE_CONTENT);
-    size_t plen = fmt_s16_dec((char *)pdu->payload, val);
-    return gcoap_finish(pdu, plen, COAP_FORMAT_TEXT);
+    size_t slen = strlen(text);
+    memcpy(pdu->payload, text, slen);
+    return gcoap_finish(pdu, slen, format);
 }
 
 static ssize_t handler_info(coap_pkt_t *pdu, uint8_t *buf, size_t len)
 {
-    gcoap_resp_init(pdu, buf, len, COAP_CODE_CONTENT);
-    size_t slen = sizeof("SOME NODE INFOMRATION");
-    memcpy(pdu->payload, "SOME NODE INFOMRATION", slen);
-    return gcoap_finish(pdu, slen, COAP_FORMAT_TEXT);
+    return text_resp(pdu, buf, len, riot_info, COAP_FORMAT_JSON);
+}
+
+static ssize_t handler_foo(coap_pkt_t *pdu, uint8_t *buf, size_t len)
+{
+    return text_resp(pdu, buf, len, "foo", COAP_FORMAT_TEXT);
+}
+
+static ssize_t handler_bar(coap_pkt_t *pdu, uint8_t *buf, size_t len)
+{
+    return text_resp(pdu, buf, len, "bar", COAP_FORMAT_TEXT);
 }
 
 static const coap_resource_t resources[] = {
-    { "/node/info",  COAP_GET, handler_info },
-    { "/sense/hum",  COAP_GET, handler_dummy },
-    { "/sense/temp", COAP_GET, handler_dummy }
+    { "/riot/bar",  COAP_GET, handler_bar },
+    { "/riot/foo",  COAP_GET, handler_foo },
+    { "/riot/info", COAP_GET, handler_info }
 };
 
 static gcoap_listener_t listener = {
@@ -62,13 +69,19 @@ int main(void)
 {
     puts("CoAP simplified RD registration example!\n");
 
-    hwrng_init();
+    /* fill riot info */
+    sprintf(riot_info, "{\"ep\":\"%s\",\"lt\":%u}",
+            rdcli_common_get_ep(), RDCLI_LT);
+
+    /* register resource handlers with gcoap */
     gcoap_register_listener(&listener);
 
+    /* print RD client information */
     puts("Client information:");
     printf("  ep: %s\n", rdcli_common_get_ep());
     printf("  lt: %is\n", (int)RDCLI_LT);
 
+    /* run the shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
 
