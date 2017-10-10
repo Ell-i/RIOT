@@ -23,7 +23,7 @@
 #include "random.h"
 #include "thread.h"
 
-#define ENABLE_DEBUG (0)
+#define ENABLE_DEBUG (1)
 #include "debug.h"
 
 /* Internal functions */
@@ -254,6 +254,7 @@ static size_t _handle_req(coap_pkt_t *pdu, uint8_t *buf, size_t len,
         return -1;
     }
 
+    DEBUG("gcoap: Calling handler for %s\n", resource->path);
     ssize_t pdu_len = resource->handler(pdu, buf, len, resource);
     if (pdu_len < 0) {
         pdu_len = gcoap_response(pdu, buf, len,
@@ -285,6 +286,7 @@ static void _find_resource(coap_pkt_t *pdu, const coap_resource_t **resource_ptr
                 continue;
             }
 
+	     DEBUG("gcoap: Looking at resource '%s' vs '%s'.\n", resource->path, (char *)&pdu->url[0]);
             int res = strcmp((char *)&pdu->url[0], resource->path);
             if (res > 0) {
                 continue;
