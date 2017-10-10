@@ -29,7 +29,7 @@
 /* Internal functions */
 static void *_event_loop(void *arg);
 static void _listen(sock_udp_t *sock);
-static ssize_t _well_known_core_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len);
+static ssize_t _well_known_core_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, ...);
 static ssize_t _write_options(coap_pkt_t *pdu, uint8_t *buf, size_t len);
 static size_t _handle_req(coap_pkt_t *pdu, uint8_t *buf, size_t len,
                                                          sock_udp_ep_t *remote);
@@ -254,7 +254,7 @@ static size_t _handle_req(coap_pkt_t *pdu, uint8_t *buf, size_t len,
         return -1;
     }
 
-    ssize_t pdu_len = resource->handler(pdu, buf, len);
+    ssize_t pdu_len = resource->handler(pdu, buf, len, resource);
     if (pdu_len < 0) {
         pdu_len = gcoap_response(pdu, buf, len,
                                  COAP_CODE_INTERNAL_SERVER_ERROR);
@@ -396,7 +396,7 @@ static void _expire_request(gcoap_request_memo_t *memo)
  * Handler for /.well-known/core. Lists registered handlers, except for
  * /.well-known/core itself.
  */
-static ssize_t _well_known_core_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len)
+static ssize_t _well_known_core_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, ...)
 {
    /* write header */
     gcoap_resp_init(pdu, buf, len, COAP_CODE_CONTENT);
