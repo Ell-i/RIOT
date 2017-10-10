@@ -24,7 +24,7 @@
 #include "net/rdcli_config.h"
 #include "net/rdcli_simple.h"
 
-#define STACKSIZE           (THREAD_STACKSIZE_DEFAULT)
+#define STACKSIZE           (THREAD_STACKSIZE_DEFAULT*4)
 #define PRIO                (THREAD_PRIORITY_MAIN - 1)
 #define TNAME               "rdcli_simple"
 
