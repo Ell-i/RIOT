@@ -2,10 +2,14 @@
 APPLICATION = rdcli_simple
 
 # If no BOARD is found in the environment, use this default:
-BOARD ?= native
+BOARD ?= nucleo-f401
 
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../..
+
+# Use ENC24J600 Ethernet hardware
+USEMODULE += encx24j600
+CFLAGS += "-DENCX24J600_SPI=SPI_DEV(0)" "-DENCX24J600_CS=GPIO_PIN(PORT_C,10)" "-DENCX24J600_INT=GPIO_PIN(PORT_D,2)"
 
 # Enable GNRC networking
 USEMODULE += gnrc_netdev_default

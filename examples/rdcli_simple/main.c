@@ -38,17 +38,17 @@ static ssize_t text_resp(coap_pkt_t *pdu, uint8_t *buf, size_t len,
     return gcoap_finish(pdu, slen, format);
 }
 
-static ssize_t handler_info(coap_pkt_t *pdu, uint8_t *buf, size_t len)
+static ssize_t handler_info(coap_pkt_t *pdu, uint8_t *buf, size_t len, ...)
 {
     return text_resp(pdu, buf, len, riot_info, COAP_FORMAT_JSON);
 }
 
-static ssize_t handler_foo(coap_pkt_t *pdu, uint8_t *buf, size_t len)
+static ssize_t handler_foo(coap_pkt_t *pdu, uint8_t *buf, size_t len, ...)
 {
     return text_resp(pdu, buf, len, "foo", COAP_FORMAT_TEXT);
 }
 
-static ssize_t handler_bar(coap_pkt_t *pdu, uint8_t *buf, size_t len)
+static ssize_t handler_bar(coap_pkt_t *pdu, uint8_t *buf, size_t len, ...)
 {
     return text_resp(pdu, buf, len, "bar", COAP_FORMAT_TEXT);
 }
