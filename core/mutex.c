@@ -70,7 +70,7 @@ int _mutex_lock(mutex_t *mutex, int blocking)
     }
 }
 
-void mutex_unlock(mutex_t *mutex)
+void __mutex_unlock(mutex_t *mutex)
 {
     unsigned irqstate = irq_disable();
 

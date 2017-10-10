@@ -108,17 +108,27 @@ static inline int mutex_trylock(mutex_t *mutex)
  *
  * @param[in] mutex Mutex object to lock. Has to be initialized first. Must not be NULL.
  */
-static inline void mutex_lock(mutex_t *mutex)
+static inline void __mutex_lock(mutex_t *mutex)
 {
     _mutex_lock(mutex, 1);
 }
+
 
 /**
  * @brief Unlocks the mutex.
  *
  * @param[in] mutex Mutex object to unlock, must not be NULL.
  */
-void mutex_unlock(mutex_t *mutex);
+void __mutex_unlock(mutex_t *mutex);
+
+#if 0
+#include <sched.h>
+#define mutex_lock(m)   (printf("L%p:%d@%s:%d\n", m, sched_active_pid, __FILE__, __LINE__), __mutex_lock(m))
+#define mutex_unlock(m) (printf("U%p:%d@%s:%d\n", m, sched_active_pid, __FILE__, __LINE__), __mutex_unlock(m))
+#else
+#define mutex_lock(m)   (__mutex_lock(m))
+#define mutex_unlock(m) (__mutex_unlock(m))
+#endif
 
 /**
  * @brief Unlocks the mutex and sends the current thread to sleep
