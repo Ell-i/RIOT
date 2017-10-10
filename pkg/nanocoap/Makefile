@@ -1,6 +1,6 @@
 PKG_NAME=nanocoap
-PKG_URL=https://github.com/kaspar030/sock
-PKG_VERSION=de104ff706bb4547c0f4190d61822beaaf16d2a1
+PKG_URL=https://github.com/Ell-i/sock.git
+PKG_VERSION=feature-nanocoap-add-resource-to-handler
 PKG_LICENSE=LGPL-2.1
 
 .PHONY: all
